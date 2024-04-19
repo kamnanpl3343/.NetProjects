@@ -1,0 +1,168 @@
+﻿@model testkamna.Models.LeadsViewModel;
+@{
+}
+
+<br />
+<br />
+<div class="card card-body mx-3 mx-md-4 mt-n6">
+
+    <div class="row">
+        <div class="row">
+            <div class="col-12 col-xl-4" style="border-bottom: 1px solid #f0f2f5;">
+                <div class="card card-plain h-100">
+                    <div class="card-header pb-0 p-3">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <h6 class="mb-0">Key Informations</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp; @Model?.ContactName</li>
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> &nbsp;  @Model?.Phone</li>
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; @Model?.Email</li>
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Location:</strong> &nbsp; @Model?.Address</li>
+
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Interest:</strong> &nbsp; @Model?.Interest</li>
+                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Remarks:</strong> &nbsp; @Model?.Remark</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-xl-4" style="border-bottom: 1px solid #f0f2f5;">
+                <h6 class="mb-0">Status</h6>
+                <hr />
+            </div>
+            <div class="col-12 col-xl-4" style="border-bottom: 1px solid #f0f2f5;">
+
+
+                <b>Assign To new User</b>
+                <hr />
+            </div>
+
+
+            <div class="col-12 col-xl-6" style="border-bottom: 1px solid #f0f2f5;">
+                <div class="card card-plain h-100">
+                    <div class="card-header pb-0 p-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <h6 class="mb-0">Follow Ups</h6>
+
+                            </div>
+
+                            <div class="col-6">
+                                <button class="btn bg-gradient-info w-100" onclick="getData('/Leads/AddFollowUps?id=@Model?.LeadId', '#followupformid')">New FollowUps</button>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="card-body row" id="followup_card">
+                            @await Html.PartialAsync("_Followups", Model?.FollowUpData)
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-6" style="border-bottom: 1px solid #f0f2f5;">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-6">
+                            <h6 class="mb-0">Comments</h6>
+
+                        </div>
+
+                        <div class="col-6">
+                            <button class="btn bg-gradient-info w-100" onclick="getData('/Leads/AddComments?id=@Model?.LeadId', '#commentformid')">New Comments</button>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <div class="card-body row" id="comment_card">
+                        @await Html.PartialAsync("_Comments", Model?.CommentData)
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+@*
+        Profile Detail Page: The user visits the "profiledetail" page, which includes the HTML code and Razor syntax
+        you provided earlier. This page displays information about a lead and a button labeled "New Comment."
+
+        New Comment Button: When the user clicks the "New Comment" button, the following function is triggered:
+
+        html
+        Copy code
+        <button class="btn bg-gradient-info w-100" onclick="getData('/Lead/AddNewComment?leadId=@Model.LeadId',
+        '#commentformid')">New Comment</button>
+        getData() Function: The getData() function is an AJAX function that sends a GET request to the server
+        to retrieve comment data. It takes two parameters:
+
+        getUrl: The URL for the GET request ('/Lead/AddNewComment?leadId=@Model.LeadId').
+        fillDivid: The ID of the HTML element where the retrieved data will be filled ('#commentformid').
+        Server-Side Handling (GET Request): The server receives the GET request with the
+        URL '/Lead/AddNewComment?leadId=@Model.LeadId'.The server-side AddNewComment action method is invoked.
+
+        AddNewComment Action (GET): The AddNewComment action method is decorated with [HttpGet],
+        so it handles the GET request. It returns a partial view named "AddCommentForm"
+        and passes it a new instance of CommentViewModel, setting its LeadId property to the value provided
+        in the query parameter (@Model.LeadId from Razor).
+
+        Displaying the Form (Partial View): The "AddCommentForm" partial view contains HTML and Razor syntax
+        to render the form for adding a new comment. The form includes a textarea for the comment text and a "Submit Comment" button.
+        The form is created based on the CommentViewModel that was passed to the partial view from the server.
+
+        Rendering on the Client Side: When the server responds to the AJAX GET request, the data received
+        (which is the HTML content of the "AddCommentForm" partial view) is inserted into the HTML element with the
+        ID specified in fillDivid ('#commentformid').This effectively renders the form on the page.
+
+        Form Submission (POST): Now that the form is displayed, the user can enter a comment and click the
+        "Submit Comment" button.
+
+        Submitting the Form: When the user clicks the "Submit Comment" button, the following function is triggered:
+
+        html
+        Copy code
+        <button type="button" onclick="getPostData('/Lead/AddNewComment','#comment_card','#comment_form')"
+        class="btn btn-primary">Submit Comment</button>
+        getPostData() Function: The getPostData() function is an AJAX function that sends a POST request to
+        the server with the form data. It takes three parameters:
+
+        getUrl: The URL for the POST request ('/Lead/AddNewComment').
+        fillDivid: The ID of the HTML element where the server response (updated comments) will be filled ('#comment_card').
+        formid: The ID of the comment form that contains the data to be serialized and sent as part of the
+        POST request ('#comment_form').
+        Server-Side Handling (POST Request): The server receives the POST request with the URL
+        '/Lead/AddNewComment'. The server-side AddNewComment action method is invoked again.
+
+        AddNewComment Action (POST): The AddNewComment action method is decorated with [HttpPost],
+        so it handles the POST request. It receives the form data in the model parameter of type CommentViewModel.
+
+        Saving the Comment: The server creates a new Comments object based on the data received in the model,
+        and it saves the new comment to the database using the _leadContext DbContext.
+
+        Updating Comments: After successfully saving the new comment, the server retrieves all comments
+        associated with the lead ID in the model.LeadId property using the GetAllComments method.
+
+        Rendering Updated Comments (Partial View): The server returns a partial view named "_Comments"
+        and passes it the listData containing the updated list of comments.
+
+        Displaying Updated Comments: When the server responds to the AJAX POST request, the data received
+        (which is the HTML content of the "_Comments" partial view with the updated comments) is inserted
+        into the HTML element with the ID specified in fillDivid ('#comment_card'). This effectively updates
+        the comments section on the page to reflect the new comment along with the existing ones.
+*@

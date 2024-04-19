@@ -1,0 +1,72 @@
+﻿@model testkamna.Models.LeadsViewModel;
+@*@Html.HiddenFor(x=>x.type)*@
+@if (Model.List != null)
+{
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Leads</h6>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Company</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Phone</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Interest</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var lead in Model.List)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><a href="/Leads/ProfileDetail?id=@lead.LeadId">@lead.ContactName</a></h6>
+                                                <p class="text-xs text-secondary mb-0">@lead.Email</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">@lead.CompanyName</p>
+                                        <p class="text-xs text-secondary mb-0">@lead.Address</p>
+                                    </td>
+                                    <td>
+                                        <span class="text-xs font-weight-bold mb-0">@lead.Phone</span>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <span class="badge badge-sm bg-gradient-success">@lead.Status</span>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <p class="text-xs font-weight-bold mb-0">@lead.Interest</p>
+                                        <p class="text-xs text-secondary mb-0">@lead.Remark</p>
+                                    </td>
+                                    <td class="align-middle">
+                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0" asp-controller="Leads" asp-action="Delete">
+                                            <i class="material-icons text-sm me-2">delete</i>Delete
+                                        </a>
+
+                                        <a href="/Leads/Add?LeadId=@lead.LeadId" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit lead">
+                                            <i class="material-icons text-sm me-2">edit</i>
+                                            Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
